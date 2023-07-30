@@ -1,10 +1,11 @@
 import express from 'express'
 import handlebars from 'express-handlebars'
+import mongoose from "mongoose"
 import { Server } from 'socket.io'
 import productRouter from './routes/product.router.js'
 import cartRouter from './routes/cart.router.js'
 import viewsRouter from './routes/views.router.js'
-import ProductManager from './manager/product.manager.js'
+import ProductManager from './DAO/fileManager/product.manager.js'
 import __dirname from './utils.js'
 
 const app = express()
@@ -19,6 +20,9 @@ app.set('view engine', 'handlebars')
 app.use('/', viewsRouter)
 app.use('/api/products', productRouter)
 app.use('/api/carts', cartRouter)
+
+mongoose.set('strictQuery', false)
+mongoose.connect("mongodb+srv://marceloaluna:marceloaluna1988@clusterml.2fhj61b.mongodb.net/")
 
 const httpServer = app.listen(8080)
 const io = new Server(httpServer)
