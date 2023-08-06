@@ -1,8 +1,32 @@
 import { Router } from "express";
 import ProductManager from '../DAO/fileManager/product.manager.js'
+import productModel from "../DAO/mongoManager/models/product.model.js"
 
 const router = Router()
 const productManager = new ProductManager()
+
+router.get('/list', async (req, res) => {
+    const page = parseInt(req.query?.page || 1)
+    const limit = parseInt(req.query?.limit || 1)
+    const queryParams = req.query?.query || ''
+    const query = {}
+    if(queryParams) {
+        const field = queryParams.split(',')[0]
+        let value = queryParams.split(',')[1]
+
+        if(isNaN(parseInt(value))) value = parseInt(value)
+
+        query(field) = value
+    }
+    const result = await productModel.paginate(query, {
+        page,
+        limit,
+        lean: true
+    })
+
+    res.render('productsList', result)
+})
+
 
 router.get('/', async (req, res) => {
     const products = await productManager.list()
