@@ -54,7 +54,8 @@ const runServer = () => {
 }
 
 console.log('Connecting...')
-mongoose.connect('mongodb+srv://marceloaluna:marceloaluna1988@clusterml.2fhj61b.mongodb.net/', {
+let uri = "mongodb+srv://marceloaluna:marceloaluna1988@clusterml.2fhj61b.mongodb.net/?retryWrites=true&w=majority"
+mongoose.connect(uri, {
     dbName: 'ecommerce'
 })
     .then(() => {

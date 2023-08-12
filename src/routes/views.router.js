@@ -49,4 +49,9 @@ router.post('/form-products', async (req, res) => {
     res.redirect('/')
 })
 
+router.get('/chat', async(req, res) => {
+    const message = req.body
+    res.render('chat', {})
+})
+
 export default router

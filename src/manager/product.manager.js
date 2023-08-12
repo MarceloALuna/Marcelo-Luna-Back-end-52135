@@ -13,7 +13,7 @@ export default class ProductManager extends FileManager {
 
     list = async () => {
         const result = await this.get()
-        console.log('asddsa', result)
+        console.log('products', result)
         return result
     }
 

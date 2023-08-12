@@ -2,7 +2,7 @@ import fs from 'fs'
 
 class FileManager {
 
-    constructor(filename = './db.json') {
+    constructor(filename = './ecommerce.json') {
         this.filename = filename
     }
 
