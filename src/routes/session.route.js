@@ -5,9 +5,9 @@ import { createHash, isValidPassword } from "../utils.js";
 
 const router = Router()
 
-router.get('/home', (req, res) => { 
-    res.render('home', {}) 
-})
+// router.get('/', (req, res) => { 
+//     res.render('', {}) 
+// })
 
 // URL para render
 router.get('/login', (req, res) => { res.render('login', {}) })

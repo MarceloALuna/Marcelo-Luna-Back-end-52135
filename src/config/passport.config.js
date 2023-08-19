@@ -19,15 +19,17 @@ const initializePassport = () => {
 
     passport.use('github', new GitHubStrategy(
         {
-            clientID: 'Iv1.42ce4864a2fe7254',
-            clientSecret: '7407e20535902bfe3e5c50389ea66a137e1e3d67',
+            clientID: 'Iv1.a2ed1131a5cd0957',
+            clientSecret: 'ea40aac0956c48f7d2eb7ab8e1a399dc34f75f7b',
             callbackURL: 'http://127.0.0.1:8080/githubcallback'
         },
         async (accessToken, refreshToken, profile, done) => {
             console.log(profile)
+            
+            const email = profile._json.email
 
             try  {
-                const user = await UserModel.findOne({ email: profile._json.email  })
+                const user = await UserModel.findOne({ email })
                 if(user) {
                     console.log('User already exits ' + email)
                     return done(null, user)
@@ -35,7 +37,7 @@ const initializePassport = () => {
 
                 const newUser = {
                     name: profile._json.name,
-                    email:  profile._json.email,
+                    email,
                     password: ''
                 }
                 const result = await UserModel.create(newUser)
