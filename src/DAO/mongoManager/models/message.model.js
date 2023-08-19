@@ -9,6 +9,6 @@ const messageSchema = new mongoose.Schema({
 
 productSchema.plugin(mongoosePaginate)
 
-const messagetModel = mongoose.model(messageCollection, messageSchema)
+const messageModel = mongoose.model(messageCollection, messageSchema)
 
 export default messageModel

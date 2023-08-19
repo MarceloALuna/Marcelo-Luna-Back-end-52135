@@ -8,7 +8,12 @@ import viewsRouter from './routes/views.router.js'
 import ProductManager from './DAO/fileManager/product.manager.js'
 import __dirname from './utils.js'
 import productModel from './DAO/mongoManager/models/product.model.js'
-
+import session from 'express-session'
+import MongoStore from 'connect-mongo'
+import passport from 'passport'
+import initializePassport from './config/passport.config.js'
+import userRouter from './routes/session.route.js'
+import jwtRouter from './routes/jwt.router.js'
 
 const app = express()
 
@@ -27,7 +32,29 @@ app.use('/api/products', productRouter)
 app.use('/api/carts', cartRouter)
 app.use('/static', express.static('public'))
 
+// Session Mongo
+app.use(session({
+    store: MongoStore.create({
+        mongoUrl: uri,
+        dbName,
+        mongoOptions: {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        },
+        ttl: 15
+    }),
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+}))
 
+// Passport
+initializePassport()
+app.use(passport.initialize())
+app.use(passport.session())
+
+app.use('/jwt', jwtRouter)
+app.use('/', userRouter)
 
 mongoose.connect(uri, { dbName })
     .then(() => {
