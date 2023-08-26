@@ -12,10 +12,10 @@
 </head>
 
 <body class="bg-secondary-subtle">
-    <nav class="navbar navbar-expand navbar-dark bg-primary">
+    {{!-- <nav class="navbar navbar-expand navbar-dark bg-primary">
         <a class="navbar-brand" href="/">Home</a>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse justify-content-center navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="/products-realtime">Productos en Tiempo Real</a>
@@ -31,7 +31,24 @@
                 </li>
             </ul>
         </div>
-    </nav>
+    </nav> --}}
+    <ul class="nav justify-content-center navbar-dark bg-black">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/products-realtime">Productos en Tiempo Real</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/chat">Chat</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/login">Login</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/register">Register</a>
+        </li>
+    </ul>
     <main role="main" class="container">
         {{{ body }}}
     </main>
