@@ -24,6 +24,9 @@ router.get('/', async (req, res) => {
         lean: true
     })
 
+    result.prevLink = result.hasPrevPage ? `/?page=${result.prevPage}&limit=${limit}` : ''
+    result.nextLink = result.hasNextPage ? `/?page=${result.nextPage}&limit=${limit}` : ''
+
     res.render('products', result)
 })
 

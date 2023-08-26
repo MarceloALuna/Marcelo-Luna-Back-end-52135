@@ -2,6 +2,15 @@
 <a class="btn btn-success" href="/form-products">Crear Productos</a>
 <hr>
 
+<div>
+        {{#if hasPrevPage}}
+            <a href="{{prevLink}}">Anterior</a>
+        {{/if}}
+        {{#if hasNextPage}}
+            <a href="{{nextLink}}">Siguiente</a>
+        {{/if}}
+    </div>
+
 <div class="row">
     {{#each docs}}
 
@@ -17,3 +26,11 @@
     </div>
     {{/each}}
 </div>
+<div>
+        {{#if hasPrevPage}}
+            <a href="{{prevLink}}">Anterior</a>
+        {{/if}}
+        {{#if hasNextPage}}
+            <a href="{{nextLink}}">Siguiente</a>
+        {{/if}}
+    </div>
