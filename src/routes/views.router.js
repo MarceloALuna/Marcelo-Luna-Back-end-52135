@@ -7,7 +7,7 @@ const productManager = new ProductManager()
 
 router.get('/', async (req, res) => {
     const page = parseInt(req.query?.page || 1)
-    const limit = parseInt(req.query?.limit || 1)
+    const limit = parseInt(req.query?.limit || 10)
     const queryParams = req.query?.query || ''
     const query = {}
     if(queryParams) {
