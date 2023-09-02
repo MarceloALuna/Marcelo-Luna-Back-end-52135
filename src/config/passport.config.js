@@ -37,8 +37,15 @@ const initializePassport = () => {
 
                 const newUser = {
                     name: profile._json.name,
-                    email,
-                    password: ''
+                    email: {
+                        type: String,
+                        unique: true
+                    },
+                    password: '',
+                    role: {
+                        type: String,
+                        default: 'user'
+                    }
                 }
                 const result = await UserModel.create(newUser)
                 return done(null, result)
@@ -55,7 +62,7 @@ const initializePassport = () => {
             usernameField: 'email'
         },
         async (req, username, password, done) => {
-            const { name, email } = req.body
+            const { first_name, last_name, email } = req.body
             try {
                 const user = await UserModel.findOne({ email: username })
                 if (user) {
@@ -64,14 +71,23 @@ const initializePassport = () => {
                 }
 
                 const newUser = {
-                    name,
-                    email,
-                    password: createHash(password)
+                    first_name,
+                    last_name,
+                    email: {
+                        type: String,
+                        unique: true
+                    },
+                    age: Number,
+                    password: createHash(password),
+                    role: {
+                        type: String,
+                        default: 'user'
+                    }
                 }
                 const result = await UserModel.create(newUser)
                 return done(null, result)
             } catch (e) {
-                return done('Error to register ' + error)
+                return done('Error to register ' + e)
             }
         }
     ))
