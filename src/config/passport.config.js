@@ -62,27 +62,22 @@ const initializePassport = () => {
             usernameField: 'email'
         },
         async (req, username, password, done) => {
-            const { first_name, last_name, email } = req.body
+            const { first_name, last_name, age, role, email } = req.body
             try {
                 const user = await UserModel.findOne({ email: username })
                 if (user) {
                     console.log('User already exits')
                     return done(null, false)
                 }
+                // let newcart = await new cartModel({ products: []}).save();
 
                 const newUser = {
                     first_name,
                     last_name,
-                    email: {
-                        type: String,
-                        unique: true
-                    },
-                    age: Number,
+                    email,
+                    age,
                     password: createHash(password),
-                    role: {
-                        type: String,
-                        default: 'user'
-                    }
+                    role
                 }
                 const result = await UserModel.create(newUser)
                 return done(null, result)
