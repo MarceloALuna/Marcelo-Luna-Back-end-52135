@@ -3,6 +3,7 @@ import local from 'passport-local'
 import UserModel from "../DAO/mongoManager/models/users.model.js";
 import GitHubStrategy from 'passport-github2'
 import { createHash, isValidPassword } from "../utils.js";
+import cartModel from "../DAO/mongoManager/models/cart.model.js";
 
 /**
  * 
@@ -69,7 +70,7 @@ const initializePassport = () => {
                     console.log('User already exits')
                     return done(null, false)
                 }
-                // let newcart = await new cartModel({ products: []}).save();
+                let newcart = await new cartModel({ products: []}).save();
 
                 const newUser = {
                     first_name,
