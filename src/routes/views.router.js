@@ -57,4 +57,8 @@ router.get('/chat', async(req, res) => {
     res.render('chat', {})
 })
 
+router.get('/carts/:cid', async(req, res) => {
+    const cart = await cartModel.findById().lean().exec()
+})
+
 export default router

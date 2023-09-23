@@ -73,8 +73,10 @@ const initializePassport = () => {
                 let newcart = await new cartModel({ products: []}).save();
 
                 const newUser = {
-                    first_name,
-                    last_name,
+                    name:{ 
+                        first_name, 
+                        last_name 
+                    },
                     email,
                     age,
                     password: createHash(password),
