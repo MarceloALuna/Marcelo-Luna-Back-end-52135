@@ -1,6 +1,8 @@
 import { Router } from "express";
 import ProductManager from '../DAO/fileManager/product.manager.js'
 import productModel from "../DAO/mongoManager/models/product.model.js"
+import cartModel from '../DAO/mongoManager/models/cart.model.js'
+
 
 const router = Router()
 const productManager = new ProductManager()
@@ -8,6 +10,7 @@ const productManager = new ProductManager()
 router.get('/', async (req, res) => {
     const page = parseInt(req.query?.page || 1)
     const limit = parseInt(req.query?.limit || 10)
+    const sort = req.params.sort || 'asd'
     const queryParams = req.query?.query || ''
     const query = {}
     if(queryParams) {
@@ -21,7 +24,8 @@ router.get('/', async (req, res) => {
     const result = await productModel.paginate(query, {
         page,
         limit,
-        lean: true
+        lean: true,
+        sort
     })
 
     result.prevLink = result.hasPrevPage ? `/?page=${result.prevPage}&limit=${limit}` : ''
@@ -57,8 +61,14 @@ router.get('/chat', async(req, res) => {
     res.render('chat', {})
 })
 
-router.get('/carts/:cid', async(req, res) => {
-    const cart = await cartModel.findById().lean().exec()
+router.get('/cart/:cid', async(req, res) => {
+    const cartId = req.params.cid
+    const cart = await cartModel.findById(cartId).populate('products.products_id').lean().exec()
+    res.render('cart', {cart})
 })
 
+router.get('/cart', async (req, res) => {
+    const carts = await cartModel.find().lean().exec()
+    res.render('cart', {})
+})
 export default router

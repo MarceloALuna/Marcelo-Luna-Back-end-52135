@@ -14,6 +14,7 @@ import passport from 'passport'
 import initializePassport from './config/passport.config.js'
 import userRouter from './routes/session.route.js'
 import jwtRouter from './routes/jwt.router.js'
+import dotenv from 'dotenv'
 
 const app = express()
 
