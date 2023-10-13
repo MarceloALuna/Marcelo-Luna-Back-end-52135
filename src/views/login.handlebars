@@ -1,28 +1,46 @@
-{{!-- <form action="/login" method="post">
-    Email: <input name="email" type="text"><br>
-    Pass: <input name="password" type="text"><br>
-    <hr>
-    <button type="submit">Login</button>
-    <hr>
+<form action="/api/session/login" method="post">
+  {{! <img class="mb-4" src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57"> }}
+  <h1 class="h3 d-flex justify-content-center"><font
+      style="vertical-align: inherit;"
+    ><font style="vertical-align: inherit;">Ingrese sus datos!</font></font></h1>
+
+  <div class="form-floating">
+    <input
+      type="email"
+      class="form-control"
+      id="floatingInput"
+      name="email"
+      placeholder="nombre@ejemplo.com"
+      required
+    />
+    <label for="floatingInput"><font style="vertical-align: inherit;"><font
+          style="vertical-align: inherit;"
+        >Dirección de correo electrónico</font></font></label>
+  </div>
+  <div class="form-floating">
+    <input
+      type="password"
+      class="form-control"
+      name="password"
+      id="floatingPassword"
+      placeholder="Contraseña"
+      required
+    />
+    <label for="floatingPassword"><font style="vertical-align: inherit;"><font
+          style="vertical-align: inherit;"
+        >Contraseña</font></font></label>
+  </div>
+  <button class="btn btn-primary w-100 py-2" type="submit"><font
+      style="vertical-align: inherit;"
+    ><font style="vertical-align: inherit;">Iniciar sesión</font></font></button>
+  <div>
     <a href="/login-github">Login whit Github</a>
-</form> --}}
-
-
-  <form action="/login" method="post">
-    {{!-- <img class="mb-4" src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57"> --}}
-    <h1 class="h3 d-flex justify-content-center"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ingrese sus datos!</font></font></h1>
-
-    <div class="form-floating">
-      <input type="email" class="form-control" id="floatingInput" name:"email" placeholder="nombre@ejemplo.com">
-      <label for="floatingInput"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Dirección de correo electrónico</font></font></label>
-    </div>
-    <div class="form-floating">
-      <input type="password" class="form-control" name="password" id="floatingPassword" placeholder="Contraseña">
-      <label for="floatingPassword"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Contraseña</font></font></label>
-    </div>
-    <button class="btn btn-primary w-100 py-2" type="submit"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Iniciar sesión</font></font></button>
-    <div>
-        <a href="/login-github">Login whit Github</a>
-    </div>
-    <p class="mt-5 mb-3 text-body-secondary"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">©2023</font></font></p>
-  </form>
+  </div>
+  <div>
+    <a href="/register">¿No tenes cuenta? Registrate</a>
+  </div>
+  <div></div>
+  <p class="mt-5 mb-3 text-body-secondary"><font
+      style="vertical-align: inherit;"
+    ><font style="vertical-align: inherit;">©2023</font></font></p>
+</form>

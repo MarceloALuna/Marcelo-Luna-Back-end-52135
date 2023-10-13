@@ -1,14 +1,12 @@
-import mongoose from "mongoose"
-import mongoosePaginate from 'mongoose-paginate-v2'
+import mongoose from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
-const messageCollection = 'message'
+const messageCollection = "message";
 
-const messageSchema = new mongoose.Schema({
-    
-})
+const messageSchema = new mongoose.Schema({});
 
-productSchema.plugin(mongoosePaginate)
+productSchema.plugin(mongoosePaginate);
 
-const messageModel = mongoose.model(messageCollection, messageSchema)
+const messageModel = mongoose.model(messageCollection, messageSchema);
 
-export default messageModel
+export default messageModel;

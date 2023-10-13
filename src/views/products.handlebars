@@ -1,36 +1,41 @@
 <h1>Nuestros Productos</h1>
 <a class="btn btn-success" href="/form-products">Crear Productos</a>
-<hr>
+<hr />
 
 <div>
-        {{#if hasPrevPage}}
-            <a href="{{prevLink}}">Anterior</a>
-        {{/if}}
-        {{#if hasNextPage}}
-            <a href="{{nextLink}}">Siguiente</a>
-        {{/if}}
-    </div>
+  {{#if hasPrevPage}}
+    <a href="{{prevLink}}">Anterior</a>
+  {{/if}}
+  {{#if hasNextPage}}
+    <a href="{{nextLink}}">Siguiente</a>
+  {{/if}}
+</div>
 
 <div class="row">
-    {{#each docs}}
+  {{#each docs}}
 
     <div class="col-sm">
-        <div class="card " style="width: 18rem;">
-            <img class="card-img-top" src="{{this.image}}" height="300" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">{{this.name}}</h5>
-                <p class="card-text">{{this.description}}</p>
-                <a href="#" class="btn btn-primary">$ {{this.price}}</a>
-            </div>
+      <div class="card" style="width: 18rem;">
+        <img
+          class="card-img-top"
+          src="{{this.image}}"
+          height="300"
+          alt="Card image cap"
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{this.name}}</h5>
+          <p class="card-text">{{this.description}}</p>
+          <a href="#" class="btn btn-primary">$ {{this.price}}</a>
         </div>
+      </div>
     </div>
-    {{/each}}
+  {{/each}}
 </div>
 <div>
-        {{#if hasPrevPage}}
-            <a href="{{prevLink}}">Anterior</a>
-        {{/if}}
-        {{#if hasNextPage}}
-            <a href="{{nextLink}}">Siguiente</a>
-        {{/if}}
-    </div>
+  {{#if hasPrevPage}}
+    <a href="{{prevLink}}">Anterior</a>
+  {{/if}}
+  {{#if hasNextPage}}
+    <a href="{{nextLink}}">Siguiente</a>
+  {{/if}}
+</div>

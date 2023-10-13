@@ -1,4 +1,3 @@
-
 <h1>Carrito</h1>
 {{!-- <div>
     <ul>
@@ -11,11 +10,11 @@
 </div> --}}
 
 <tbody id="tbody">
-        {{#each cart.products}}
-        <tr class="table-primary">
-            <th scope="row"></th>
-            <td>{{this.product_id.tile}}</td>
-            <td>Cantidad {{this.quantity}}</td>
-        </tr>
-        {{/each}}
-    </tbody>
+  {{#each cart.products}}
+    <tr class="table-primary">
+      <th scope="row"></th>
+      <td>{{this.product_id.tile}}</td>
+      <td>Cantidad {{this.quantity}}</td>
+    </tr>
+  {{/each}}
+</tbody>

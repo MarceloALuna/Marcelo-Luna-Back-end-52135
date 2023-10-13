@@ -1,71 +1,64 @@
 <h2>Productos en Tiempo Real!</h2>
 
-<form id='myForm'>
-    <div class="form-group">
-        <label for="formGroupExampleInput">Name</label>
-        <input type="text" name="title" class="form-control" id="formGroupExampleInput" placeholder="Name">
+<form id="myForm">
+  <div class="form-group">
+    <label for="formGroupExampleInput">Name</label>
+    <input
+      type="text"
+      name="title"
+      class="form-control"
+      id="formGroupExampleInput"
+      placeholder="Name"
+    />
   </div>
   <div class="form-group">
-        <label for="formGroupExampleInput">Price</label>
-        <input type="text" name="price" class="form-control" id="formGroupExampleInput" placeholder="Price">
+    <label for="formGroupExampleInput">Price</label>
+    <input
+      type="text"
+      name="price"
+      class="form-control"
+      id="formGroupExampleInput"
+      placeholder="Price"
+    />
   </div>
-    <button class="btn btn-primary" type="submit">Enviar</button>
+  <button class="btn btn-primary" type="submit">Enviar</button>
 </form>
 
-<hr>
+<hr />
 
 <table class="table">
-    <thead>
-        <tr class="table-secondary">
-            <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Description</th>
-            <th scope="col">Price</th>
-            <th scope="col">Stock</th>
-        </tr>
-    </thead>
-    <tbody id="tbody">
-        {{#each products}}
-        <tr class="table-primary">
-            <th scope="row">{{this.id}}</th>
-            <td>{{this.title}}</td>
-            <td>{{this.description}}</td>
-            <td>{{this.price}}</td>
-            <td>{{this.stock}}</td>
-        </tr>
-        {{/each}}
-    </tbody>
+  <thead>
+    <tr class="table-secondary">
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Description</th>
+      <th scope="col">Price</th>
+      <th scope="col">Stock</th>
+    </tr>
+  </thead>
+  <tbody id="tbody">
+    {{#each products}}
+      <tr class="table-primary">
+        <th scope="row">{{this.id}}</th>
+        <td>{{this.title}}</td>
+        <td>{{this.description}}</td>
+        <td>{{this.price}}</td>
+        <td>{{this.stock}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
 </table>
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    const socket = io()
-
-    document.getElementById('myForm').onsubmit = e => {
-        e.preventDefault()
-
-        const name = document.querySelector('input[name=name]').value
-        const price = parseInt(document.querySelector('input[name=price]').value)
-
-        const product = { name, price }
-        socket.emit('new-product', product)
-
-    }
-
-    socket.on('reload-table', products => {
-        console.log(products)
-        const tbody = document.getElementById('tbody')
-
-        let html = '';
-        products.forEach(product => {
-            html += `<tr>
-                <th scope="row">${product.id}</th>
-                <td>${product.name}</td>
-                <td>${product.price}</td>
-            </tr>`
-        })
-
-        tbody.innerHTML = html
-    })
+  const socket = io() document.getElementById('myForm').onsubmit = e => {
+  e.preventDefault() const name =
+  document.querySelector('input[name=name]').value const price =
+  parseInt(document.querySelector('input[name=price]').value) const product = {
+  name, price } socket.emit('new-product', product) } socket.on('reload-table',
+  products => { console.log(products) const tbody =
+  document.getElementById('tbody') let html = ''; products.forEach(product => {
+  html += `<tr> <th scope="row">${product.id}</th> <td>${product.name}</td>
+  <td>${product.price}</td> </tr>` }) tbody.innerHTML = html })
 
 </script>
