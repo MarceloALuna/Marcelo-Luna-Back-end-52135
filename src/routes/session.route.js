@@ -17,10 +17,20 @@ router.get('/register', (req, res) => { res.render('register', {}) })
 // Iniciar Session
 router.post('/login', passport.authenticate('login', '/login'), async (req, res) => {
 
-    if (!req.user) return res.status(400).send('Invalid Credentials')
+    if (!user) return res.status(400).json({message:'Invalid Credentials'})
     req.session.user = req.user
 
     return res.redirect('/profile')
+})
+
+// Cerrar sesion
+router.delete('/logout', (req, res) => {
+    req.session.destroy(error => {
+        if(error) {
+            return res.json({status:'Logout ERROR', body: error})
+        }
+        res.send('Logout OK!')
+    })
 })
 
 

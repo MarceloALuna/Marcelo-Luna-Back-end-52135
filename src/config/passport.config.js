@@ -63,7 +63,7 @@ const initializePassport = () => {
             usernameField: 'email'
         },
         async (req, username, password, done) => {
-            const { first_name, last_name, age, role, email } = req.body
+            const { first_name, last_name, age, rol, email } = req.body
             try {
                 const user = await UserModel.findOne({ email: username })
                 if (user) {
@@ -73,14 +73,14 @@ const initializePassport = () => {
                 let newcart = await new cartModel({ products: []}).save();
 
                 const newUser = {
-                    name:{ 
+                    name: { 
                         first_name, 
                         last_name 
                     },
                     email,
                     age,
                     password: createHash(password),
-                    role
+                    rol
                 }
                 const result = await UserModel.create(newUser)
                 return done(null, result)
