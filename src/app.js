@@ -27,7 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/static", express.static("public"));
 
 // Session Mongo
-app.use(cookieParser());
+
 
 app.use(
   session({
@@ -50,10 +50,12 @@ app.use(
 initializePassport();
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(cookieParser("KeyCookieForJWT"));
 app.use("/", viewsRouter);
 app.use("/api/session", userRouter);
 app.use("/api/products", productRouter);
 app.use("/api/carts", cartRouter);
+
 
 
 mongoose

@@ -2,17 +2,10 @@ import { Router } from "express";
 import ProductManager from "../DAO/fileManager/product.manager.js";
 import productModel from "../DAO/mongoManager/models/product.model.js";
 import cartModel from "../DAO/mongoManager/models/cart.model.js";
-import userRouter from "./session.route.js";
 import passport from "passport";
 
 const router = Router();
 const productManager = new ProductManager();
-
-// Profile
-function auth(req, res, next) {
-  if (req.session?.user) next();
-  else res.redirect("/login");
-}
 
 router.get("/login", (req, res) => {
   if (req.session?.user) return res.redirect("/profile");
@@ -31,7 +24,7 @@ router.get("/", async (req, res) => {
   const sort = req.params.sort || "asd";
   const queryParams = req.query?.query || "";
   const query = {};
-  if (queryParams) {
+  if (query) {
     const field = queryParams.split(",")[0];
     let value = queryParams.split(",")[1];
     if (isNaN(parseInt(value))) value = parseInt(value);
@@ -52,12 +45,28 @@ router.get("/", async (req, res) => {
   res.render("products", result);
 });
 
-router.get("/profile", auth, (req, res) => {
-  if (!req.session.user) return res.redirect("/login");
-  const user = req.session.user;
+router.get(
+  "/products",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    if (!req.session.user) return res.redirect("/login");
+    const user = req.user;
+    const cart = await cartModel.findOne().lean().exec();
+    const products = await ProductModel.find().lean().exec();
+    console.log({ cart });
+    res.render("products", { products, cart, user, css: "products" });
+  }
+);
 
-  res.render("profile", user);
-});
+router.get(
+  "/profile",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const { user } = req.user;
+    console.log(user);
+    res.render("profile", user);
+  }
+);
 
 router.get("/products-realtime", async (req, res) => {
   if (!req.session.user) return res.redirect("/login");
@@ -65,24 +74,33 @@ router.get("/products-realtime", async (req, res) => {
   res.render("products_realtime", { products });
 });
 
-router.get("/form-products", async (req, res) => {
-  if (!req.session.user) return res.redirect("/login");
-  res.render("form", {});
-});
+router.get(
+  "/form-products",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    res.render("form", {});
+  }
+);
 
-router.post("/form-products", async (req, res) => {
-  if (!req.session.user) return res.redirect("/login");
-  const data = req.body;
-  const result = await productModel.create(data);
+router.post(
+  "/form-products",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const data = req.body;
+    const result = await productModel.create(data);
 
-  res.redirect("/");
-});
+    res.redirect("/");
+  }
+);
 
-router.get("/chat", async (req, res) => {
-  if (!req.session.user) return res.redirect("/login");
-  const message = req.body;
-  res.render("chat", {});
-});
+router.get(
+  "/chat",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const message = req.body;
+    res.render("chat", {});
+  }
+);
 
 router.get("/cart/:cid", async (req, res) => {
   if (!req.session.user) return res.redirect("/login");

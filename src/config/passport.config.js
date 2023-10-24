@@ -4,6 +4,7 @@ import UserModel from "../DAO/mongoManager/models/users.model.js";
 import GitHubStrategy from "passport-github2";
 import { createHash, generateToken, isValidPassword } from "../utils.js";
 import cartModel from "../DAO/mongoManager/models/cart.model.js";
+import jwt from 'passport-jwt'
 
 /**
  * 
@@ -14,9 +15,28 @@ import cartModel from "../DAO/mongoManager/models/cart.model.js";
  *  Secret: 7eff1a591930fc3823944a2934e421ebdda6dba9
  */
 
-const LocalStrategy = local.Strategy;
+const JWTStrategy = jwt.Strategy;
+const ExtractJWT = jwt.ExtractJwt;
+
+
+const cookieExtractor = (req) =>
+  req && req.cookies ? req.cookies["keyCookieForJWT"] : null;
 
 const initializePassport = () => {
+
+  passport.use("jwt", new JWTStrategy({
+    jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
+    secretOrKey: "secretForJWT",
+  },
+  async (jwtPayload, done) => {
+    try {
+      done(null, jwtPayload)
+    } catch (error) {
+      return done(error)
+    }
+  }))
+
+
   passport.use(
     "github",
     new GitHubStrategy(
@@ -36,6 +56,7 @@ const initializePassport = () => {
             user.token = token;
             return done(null, user);
           }
+          const cart = await cartModel.create({ products: [] });
           const newUser = {
             first_name: profile._json.name,
             last_name:"",
@@ -44,80 +65,12 @@ const initializePassport = () => {
             password: "",
             social: "github",
             rol: "user",
+            cartId
           }
           const result = await UserModel.create(newUser);
           return done(null, result);
         } catch (e) {
           return done("Error to login wuth github" + e);
-        }
-      }
-    )
-  );
-
-  // register Es el nomber para Registrar con Local
-  passport.use(
-    "register",
-    new LocalStrategy(
-      {
-        passReqToCallback: true,
-        usernameField: "email",
-      },
-      async (req, username, password, done) => {
-        const { first_name, last_name, age, email } = req.body;
-        try {
-          const user = await UserModel.findOne({ email: username });
-          if (user) {
-            console.log("User already exits");
-            return done(null, false);
-          }
-          let newcart = await new cartModel({ products: [] }).save();
-          let rol;
-          if(email === "adminCoder@coder.com"){
-            rol = "admin";
-          }else{
-            rol = "user";
-          }
-          const newUser = {
-            first_name,
-            last_name,
-            email,
-            age,
-            password: createHash(password),
-            social: "ecommerce",
-            rol
-          };
-          const result = await UserModel.create(newUser);
-          return done(null, result);
-        } catch (e) {
-          return done("Error to register " + e);
-        }
-      }
-    )
-  );
-
-  // login Es el nomber para IniciarSesion con Local
-  passport.use(
-    "login",
-    new LocalStrategy(
-      { usernameField: "email" },
-      async (username, password, done) => {
-        try {
-          const user = await UserModel.findOne({ email: username })
-            .lean()
-            .exec();
-          if (!user) {
-            console.error("User doesnt exist");
-            return done(null, false);
-          }
-
-          if (!isValidPassword(user, password)) {
-            console.error("Password not valid");
-            return done(null, false);
-          }
-
-          return done(null, user);
-        } catch (e) {
-          return done("Error login " + error);
         }
       }
     )

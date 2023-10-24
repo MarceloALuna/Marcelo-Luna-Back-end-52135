@@ -12,9 +12,14 @@ const userSchema = mongoose.Schema({
   age: Number,
   password: String,
   social: String,
+  cartId: [
+    {
+      cid: { type: mongoose.Schema.Types.ObjectId, ref: 'carts' }
+    }
+  ],
   rol: {
     type: String,
-    enum: ["admin", "user"],
+    enum: ["admin", "user", "premium"],
     default: "user",
   },
 });
