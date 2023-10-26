@@ -1,0 +1,13 @@
+const EErrors = {
+    CART_NOT_FOUND: 1,
+    PRODUCT_NOT_FOUND: 2,
+    INVALID_TYPES_ERROR: 3,
+    USER_NOT_AUTHORIZED: 4,
+    PRODUCT_ALREADY_EXISTS: 5,
+    PRODUCT_NOT_EXISTS: 6,
+    USER_NOT_EXISTS: 7,
+    PASSWORD_NOT_VALID: 8,
+    NOT_AUTOHORIZED: 9,
+
+  };
+  export default EErrors;

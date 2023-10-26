@@ -1,6 +1,9 @@
 import { Router } from "express";
 import CartManager from "../DAO/fileManager/cart.manager.js";
 import cartModel from "../DAO/mongoManager/models/cart.model.js";
+import CustomError from '../services/errors/custom_errors.js'
+import EErrors from '../services/errors/enums.js'
+import { generateCartErrorInfo } from "../services/errors/info.js";
 
 const router = Router();
 
@@ -20,7 +23,8 @@ router.get("/:cid", async (req, res) => {
     const cart = await cartModel.getCartById(cartId).populate("products");
     res.status(200).json({ status: "succes", cart });
   } catch (error) {
-    res.status(500).json({ error: "Error al tratar de obtener el carrito" });
+    req.logger.fatal("Error al obtener el carrito");
+    res.status(500).json({ error: error.message });
   }
 });
 
@@ -45,11 +49,14 @@ router.post("/:cid/:idp", async (req, res) => {
   try {
     const cart = await cartModel.findById(cid);
     if (!cart) {
-      return res.status(404).send({
-        error: "Cart not found",
+      req.logger.error("Error al obtener el carrito");
+      CustomError.createError({
+        name: "Error",
+        message: "Cart not found",
+        code: EErrors.CART_NOT_FOUND,
+        info: generateCartErrorInfo(req.user),
       });
-    }
-    cart.products.push({
+    } else cart.products.push({
       product_id: idp,
       quantity,
     });
@@ -58,10 +65,8 @@ router.post("/:cid/:idp", async (req, res) => {
 
     res.send(result);
   } catch (error) {
-    console.log(error);
-    res.status(500).send({
-      error: "Error al agregar un producto al carrito",
-    });
+    req.logger.fatal("Error al agregar un producto al carrito");
+    res.status(500).send({ error: error.message });
   }
 });
 
@@ -72,7 +77,8 @@ router.delete("/:cid/products/:idp", async (req, res) => {
     await cartModel.removeProductFromCart(cartId, productId);
     res.status(200).json({ message: "Poductos borrados correctamente" });
   } catch (error) {
-    res.status(500).json({ message: "Error al tratar de borrar el producto" });
+    req.logger.fatal("Error al tratar de borrar el producto");
+    res.status(500).send({ error: error.message });
   }
 });
 
@@ -87,7 +93,8 @@ router.put("/:cid", async (req, res) => {
     await cartModel.updateCart(cartId, products);
     res.status(200).json({ messasge: "Cart updated correctly" });
   } catch (error) {
-    res.status(500).json({ error: "Error al tratar de obtener el carrito" });
+    req.logger.fatal("Error al tratar de obtener el carrito");
+    res.status(500).send({ error: error.message });
   }
 });
 
@@ -100,7 +107,8 @@ router.put("/:cid/products/:idp", async (req, res) => {
     await cartModel.updateProductQuantity(cartId, productId, quantity);
     res.status(200).json({ message: "Poducto sumado correctamente" });
   } catch (error) {
-    res.status(500).json({ message: "Error al tratar de sumar el producto" });
+    req.logger.fatal("Error al tratar de sumar el producto");
+    res.status(500).send({ error: error.message });
   }
 });
 
