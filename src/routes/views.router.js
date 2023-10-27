@@ -3,6 +3,7 @@ import ProductManager from "../DAO/fileManager/product.manager.js";
 import productModel from "../DAO/mongoManager/models/product.model.js";
 import cartModel from "../DAO/mongoManager/models/cart.model.js";
 import passport from "passport";
+import { generateProducts } from "../utils.js";
 
 const router = Router();
 const productManager = new ProductManager();
@@ -135,5 +136,13 @@ router.get(
     res.redirect("/profile");
   }
 );
+
+router.get("/mockingproducts", async (req, res) => {
+  let products = [];
+  for (let i = 0; i < 100; i++) {
+    products.push(generateProducts());
+  }
+  res.send({ status: "success", payload: products });
+});
 
 export default router;

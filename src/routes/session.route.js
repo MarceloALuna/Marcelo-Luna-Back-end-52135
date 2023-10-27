@@ -41,9 +41,7 @@ router.post("/register", async (req, res) => {
   res.redirect("/login");
 });
 
-router.get(
-  "/current",
-  passport.authenticate("jwt", { session: false }),
+router.get("/current", passport.authenticate("jwt", { session: false }),
   (req, res) => {
     return res.send({ status: "sucess", payload: req.user });
   }
